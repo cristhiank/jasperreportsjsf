@@ -1,0 +1,76 @@
+~~ 
+~~ JasperReports JSF Plugin
+~~ Copyright (C) 2011 A. Alonso Dominguez
+~~
+~~ This library is free software; you can redistribute it and/or
+~~ modify it under the terms of the GNU Lesser General Public
+~~ License as published by the Free Software Foundation; either
+~~ version 2.1 of the License, or (at your option) any later version.
+~~ 
+~~ This library is distributed in the hope that it will be useful,
+~~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+~~ Lesser General Public License for more details.
+~~ 
+~~ You should have received a copy of the GNU Lesser General Public
+~~ License along with this library; if not, write to the Free Software
+~~ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+~~ 
+~~ A. Alonso Dominguez
+~~ alonsoft@users.sf.net
+~~ 
+
+                        ---
+			Exporter Feature (Output Formats)
+			---
+			A. Alonso Dominguez
+
+Exporter Feature
+  
+  {{{../apidocs/net/sf/jasperreports/jsf/engine/Exporter.html}<<<Exporter>>>}}s
+are used to <export> the contents of a report. They are the output format
+processors used by the library implementation. Each supported output format
+needs a <<<Exporter>>> implementation in order to be available to the library.
+
+  A exporter implementations are loaded at plugin initialization and invoked at
+<<<RENDER_RESPONSE>>> phase to transform a pre-filled report instance into a human
+readable report. Many output formats are currently supported by the actual version of
+JasperReports JSF-Plugin, but you can provide your owns providing an implementation of 
+the <<<Exporter>>> interface.
+
+  All of the <<<Exporter>>>s provided by the plugin are "exporter-bridges", in other 
+worlds, they have been implementing extending 
+the {{{../apidocs/net/sf/jasperreports/jsf/engine/export/ExporterBase.html}<<<ExporterBase>>>}}
+class and instantiating a <<<net.sf.jasperreports.engine.JRExporter>>> to perform
+the actual rendering.
+
+* Offering the new exporter to the plugin
+
+  Once you have implemented your own <<<Exporter>>> you need to configure it as a service 
+that can be loaded from the classpath. The way this is done
+is using the file <<<META-INF/services/net.sf.jasperreports.jsf.engine.Exporter>>>
+which must be also in the classpath.
+
+  The information of that file is similar than the specified at 
+{{{http://java.sun.com/j2se/1.3/docs/guide/jar/jar.html#Service%20Provider}Service Provider}}
+but not exactly, there is a bit difference that must be considered. That difference
+consists in each line of the file must be a pair where the first part is the
+supported format and the last one is the <<<Exporter>>> implementation class name.
+When no export format is specified, the provided <<<Exporter>>> will be considered 
+the default one. Here is a code snippet which is exactly the one provided by default in this plugin:
+
++---
+:net.sf.jasperreports.jsf.engine.export.PdfExporter
+docx:net.sf.jasperreports.jsf.engine.export.DocxExporter
+pdf:net.sf.jasperreports.jsf.engine.export.PdfExporter
+csv:net.sf.jasperreports.jsf.engine.export.CsvExporter
+html:net.sf.jasperreports.jsf.engine.export.HtmlExporter
+jexcel:net.sf.jasperreports.jsf.engine.export.JExcelApiExporter
+rtf:net.sf.jasperreports.jsf.engine.export.RtfExporter
+text:net.sf.jasperreports.jsf.engine.export.TextExporter
+xls:net.sf.jasperreports.jsf.engine.export.XlsExporter
+xml:net.sf.jasperreports.jsf.engine.export.XmlExporter
++---
+
+  You can also replace one of the provided <<<Exporter>>>'s by one written by yourself.
+However, this is not recommended so do it by your own risk.

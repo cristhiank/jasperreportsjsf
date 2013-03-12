@@ -1,0 +1,98 @@
+~~ 
+~~ JasperReports JSF Plugin
+~~ Copyright (C) 2011 A. Alonso Dominguez
+~~
+~~ This library is free software; you can redistribute it and/or
+~~ modify it under the terms of the GNU Lesser General Public
+~~ License as published by the Free Software Foundation; either
+~~ version 2.1 of the License, or (at your option) any later version.
+~~ 
+~~ This library is distributed in the hope that it will be useful,
+~~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+~~ Lesser General Public License for more details.
+~~ 
+~~ You should have received a copy of the GNU Lesser General Public
+~~ License along with this library; if not, write to the Free Software
+~~ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+~~ 
+~~ A. Alonso Dominguez
+~~ alonsoft@users.sf.net
+~~ 
+
+                        ---
+			Validators
+			---
+			A. Alonso Dominguez
+
+Validators
+
+  JSF has a well defined lifecycle splitted in different phases that perform
+specific operations against the view tree. One of those phases is the
+<<<PROCESS_VALIDATIONS>>> phase which triggers the validators attached to
+the different <<<UIInput>>> components.
+
+  JasperReports JSF Plugin provides its own validation mechanism triggered at
+the <<<RENDER_RESPONSE>>> lifecycle phase. The reason to use its own mechanism
+is based in following observations:
+
+  * Report and data source components are not extensions of the <<<UIInput>>>
+    component.
+  
+  * The <<<PROCESS_VALIDATIONS>>> phase is executed just when submitting information
+    to the server. Something that is commonly called a <post-back>. Since we are
+    <<rendering>> reports, we need a validation phase triggered just before render.
+  
+  * The library provides few components which act with different behavior depending 
+    of their properties. This has been done with the intention of ease of use, but
+    since we're dealing with different possible values for the component properties,
+    a validation step is required just before rendering.
+
+  The built-in validation framework is very simple and, it's also very similar to
+the other providers implemented within this library.
+
+  {{{../apidocs/net/sf/jasperreports/jsf/validation/Validator.html}<<<Validator>>>}}s are
+loaded used the {{{../apidocs/net/sf/jasperreports/jsf/spi/ValidatorLoader.html}<<<ValidatorLoader>>>}}
+class. The loading mechanism is based on locate inside the classpath a
+{{{../apidocs/net/sf/jasperreports/jsf/spi/ValidatorFactory.html}<<<ValidatorFactory>>>}}
+suitable to the current faces component.
+
+* Validator and Validator Factories
+
+  The library provides with two built-in <<<ValidatorFactory>>> implementations, one for
+data source components and another one for report components.
+
+** DataSource Validators
+
+  Data source components are validated using a 
+{{{../apidocs/net/sf/jasperreports/jsf/validation/DataSourceValidator.html}<<<DataSourceValidator>>>}}.
+The {{{../apidocs/net/sf/jasperreports/jsf/validation/DataSourceValidatorFactory.html}<<<DataSourceValidatorFactory>>>}}
+will look inside the classpath for classes that implement the <<<DataSourceValidator>>> interface.
+These classes must be configured the same way {{{filler.html}<<<FillerFactory>>>}} instances are.
+Here is an example:
+
++---
+:net.sf.jasperreports.jsf.validation.DataSourceValidatorBase
+jdbc:net.sf.jasperreports.jsf.validation.providers.JdbcDataSourceValidator
++---
+
+  When no validator is found for the current data source type, the default one
+will be used. If no validator is found, the data source component will not be
+validated at all.
+
+** Report Validators
+
+  The same thing happens with reports. These are validated using a
+{{{../apidocs/net/sf/jasperreports/jsf/validation/ReportValidator.html}<<<ReportValidator>>>}}.
+The {{{../apidocs/net/sf/jasperreports/jsf/validation/ReportValidatorFactory.html}<<<ReportValidatorFactory>>>}}
+will look inside the classpath for classes that implement the <<<ReportValidator>>> interface.
+These classes must be configured the same way {{{exporter.html}<<<ExporterFactory>>>}} instances are.
+Here is an example:
+
++---
+:net.sf.jasperreports.jsf.validation.ReportValidatorBase
++---
+
+  When no validator is found for the current data source type, the default one
+will be used. If no validator is found, the data source component will not be
+validated at all.

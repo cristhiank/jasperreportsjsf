@@ -1,0 +1,248 @@
+~~ 
+~~ JasperReports JSF Plugin
+~~ Copyright (C) 2011 A. Alonso Dominguez
+~~
+~~ This library is free software; you can redistribute it and/or
+~~ modify it under the terms of the GNU Lesser General Public
+~~ License as published by the Free Software Foundation; either
+~~ version 2.1 of the License, or (at your option) any later version.
+~~ 
+~~ This library is distributed in the hope that it will be useful,
+~~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+~~ Lesser General Public License for more details.
+~~ 
+~~ You should have received a copy of the GNU Lesser General Public
+~~ License along with this library; if not, write to the Free Software
+~~ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+~~ 
+~~ A. Alonso Dominguez
+~~ alonsoft@users.sf.net
+~~ 
+
+			---
+			Using the report components
+			---
+			A. Alonso Dominguez
+			
+
+Using the report components
+
+  Currently there are only two kind of components available for report rendering:
+  
+  * An inline frame component that can be embbeded in any page.
+  
+  * A link that when clicked navigates to a full page with the
+    report rendered.
+
+  <<Note>>: An additional report component exists just for allowing nested reports.
+    
+* Report Frames (inline reports)
+
+  An inline report is rendered using the {{{./tlddoc/jr/reportFrame.html}jr:reportFrame}}
+tag. When this component is used, an <<<iframe>>> HTML element
+will be rendered, so many of the attributes available for the <<<iframe>>>
+tag are also available with this component.
+
+* Report Links
+
+  An inline report is rendered using the {{{./tlddoc/jr/reportLink.html}jr:reportLink}}
+tag. When this component is used, an <<<a>>> HTML element
+will be rendered, every attribute available for the <<<a>>> tag
+is also available with this component.
+
+* Common Usage
+
+  There are some attributes you must specify when using any of the
+report components. This attributes are shown in the following table:
+
+*--------------+----------*--------------------------------------------------------------------------------------------------------------------------+
+| Attribute    | Optional | Description                                                                                                              |
+*--------------+----------*--------------------------------------------------------------------------------------------------------------------------+
+| format       | true     | Output format for this report instance.                                                                                  |
+*--------------+----------*--------------------------------------------------------------------------------------------------------------------------+
+| name         | true     | Name of the generated report, very useful when working with report links or subreports.                                  |
+*--------------+----------*--------------------------------------------------------------------------------------------------------------------------+
+| source       | true     | Report Source reference id (See {{{./sources/index.html}Report Source documentation}}) or any supported source object.   |
+*--------------+----------*--------------------------------------------------------------------------------------------------------------------------+
+| value        | true     | A pointer to the report instance, it can be a path name to a <<<.jasper>>> file, a <<<JasperReport>>> object, etc.       |
+*--------------+----------*--------------------------------------------------------------------------------------------------------------------------+
+
+** Resources
+
+  As it is said in the previous table, the common usage uses resources stored
+inside the application context but the plugin has its own resource loading mechanism. 
+Advanced users can use the {{{./devel/resource_loading.html}service provider interfaces}} 
+to extend functionality to the plugin. 
+  
+  Report resources can be loaded from the classpath, from the web application context, 
+  from an external URL or relative to the current request. Following there are some examples:
+
+*** Classpath Resources
+
+  When loading classpath resources we need to use the prefix <<<classpath:>>> in
+the <<<value>>> attribute:
+
++--
+<jr:reportFrame value="classpath:reports/orders.jasper">
+    ...
+</jr:reportFrame>
++-- 
+
+  <<Note>>: Since 1.0-RC version classpath resources can be specified also without
+the <<<classpath:>>> prefix. This is done in order to address some issues found when
+those resources are looked up from inside the JasperReports engine. However, the
+prefered way to specify this kind of resources is still prepending the <<<classpath:>>>
+prefix.
+
+*** External URL Resources
+
+  When loading resources from an URL simply use any normal URL as the value of
+the <<<value>>> attribute:
+
++--
+<jr:reportFrame value="http://www.example.com/reports/orders.jasper">
+    ...
+</jr:reportFrame>
++--
+
+*** Context-relative Resources 
+
+  Context-relative resources are the default way of loading reports. When loading
+this kind of resources just use an absolute path to the given resource. This path
+will be resolved inside the application context.
+
++--
+<jr:reportFrame value="/reports/orders.jasper">
+    ...
+</jr:reportFrame>
++--
+
+*** Request-relative Resources
+
+  Request-relative resources are a special kind of resources that are resolved locally
+against current request. When using this kind of resources.
+
+  <<Request-relative resource locally to view id>>
+
++--
+<jr:source value="orders.xls" />
++--
+
+  or
+
++--
+<jr:reportLink value="orders.jasper" />
++--
+
+
+** Report Parameters
+
+  Report parameters are specified using the JSF <<<f:param>>> tag nested inside 
+the report component tag that you are using.
+
++---
+<jr:reportFrame value="/reports/orders.jasper">
+    <f:param name="CITY" value="Melbourne" />
+</jr:reportFrame>
++---
+
+** Output Formats
+
+  JasperReports JSF-Plugin allows rendering reports using different output formats
+by means of the <<<format>>> attribute. The plugin has its own built-in mechanism to be
+aware of different exporters bundled inside the official distribution.
+Advanced users can also provide its own supported output formats, take a 
+look to {{{./devel/exporter.html}this link}} to get more information about that.
+
+  Apart from that, each of the output formats can be customized providing some component
+attributes using the <<<f:attribute>>> tag nested inside the report component that you are using.
+
++---
+<jr:reportFrame value="..." format="csv">
+    <f:attribute name="FIELD_DELIMITER" value=":" />
+</jr:reportFrame>
++---
+
+  Following there is a list of the current supported output formats
+  
+*--------------------+-------------------------------------------------------------------------+--------------------------------------------+
+| <<<format>>> value | Mime Type                                                               | Description                                |
+*--------------------+-------------------------------------------------------------------------+--------------------------------------------+
+| <<<docx>>>         | application/vnd.openxmlformats-officedocument.wordprocessingml.document | Exports to a Office 2007 Word document     |
+*--------------------+-------------------------------------------------------------------------+--------------------------------------------+
+| <<<pdf>>>          | application/pdf                                                         | Exports to a PDF document                  |
+*--------------------+-------------------------------------------------------------------------+--------------------------------------------+
+| <<<csv>>>          | text/plain                                                              | Exports to a CSV text file                 |
+*--------------------+-------------------------------------------------------------------------+--------------------------------------------+
+| <<<html>>>         | text/html                                                               | Exports to a HTML document                 |
+*--------------------+-------------------------------------------------------------------------+--------------------------------------------+
+| <<<jexcel>>>       | application/vnd.ms-excel                                                | Exports to a MSExcel file using JExcel API |
+*--------------------+-------------------------------------------------------------------------+--------------------------------------------+
+| <<<rtf>>>          | application/rtf                                                         | Exports to a RTF document                  |
+*--------------------+-------------------------------------------------------------------------+--------------------------------------------+
+| <<<text>>>         | text/plain                                                              | Exports to a plain text file               |
+*--------------------+-------------------------------------------------------------------------+--------------------------------------------+
+| <<<xls>>>          | application/vnd.ms-excel                                                | Exports to a MSExcel file using POI API    |
+*--------------------+-------------------------------------------------------------------------+--------------------------------------------+
+| <<<xml>>>          | text/xml                                                                | Exports to a XML document                  |
+*--------------------+-------------------------------------------------------------------------+--------------------------------------------+
+
+  Take a look to the {{{./apidocs/index.html}Javadocs}} to get specific information
+about each exporter and its specific attributes.
+
+* Implicit objects
+
+  When report instances are filled with data some implicit objects are provided to
+the JasperReports engine and thus, they can be used by report code to access
+contextualised information from the web application that is rendering the report.
+
+  The set of implicit objects and its names are showed in following table:
+
+*---------------------------+-----------------------------*----------------------------------------+
+| Parameter name            | Type                        | Description                            |
+*---------------------------+-----------------------------*----------------------------------------+
+| <<<REPORT_CLASS_LOADER>>> | <<<java.lang.ClassLoader>>> | Current context class loader.          |
+*---------------------------+-----------------------------*----------------------------------------+
+| <<<REPORT_LOCALE>>>       | <<<java.util.Locale>>>      | Current view locale.                   |
+*---------------------------+-----------------------------*----------------------------------------+
+| <<<APPLICATION_SCOPE>>>   | <<<java.util.Map>>>         | Servlet/Portlet application scope map. |
+*---------------------------+-----------------------------*----------------------------------------+
+| <<<SESSION_SCOPE>>>       | <<<java.util.Map>>>         | Session scope map.                     |
+*---------------------------+-----------------------------*----------------------------------------+
+| <<<REQUEST_SCOPE>>>       | <<<java.util.Map>>>         | Request scope map.                     |
+*---------------------------+-----------------------------*----------------------------------------+
+
+* Subreports
+
+  It's very common working with reports which contain other mini-reports inside
+as a master-detail view. JasperReports JSF Plugin provides with a subreport component
+that can be used to insert data into the <detail> report inside a <master> one.
+
+  This component should be used this way:
+
++---
+<jr:reportFrame value="...">
+    <f:param name="ORDER_ID" value="..." />
+    <jr:subreport name="orderLines" value="...">
+        <f:param name="FROM_DATE" value="..." />
+        <f:param name="TO_DATE" value="..." />
+    </jr:subreport>
+</jr:reportFrame>
++---
+
+** Subreport attributes
+
+*--------------+----------*-----------------------------------------------------------------------------------------------------------------------------+
+| Attribute    | Optional | Description                                                                                                                 |
+*--------------+----------*-----------------------------------------------------------------------------------------------------------------------------+
+| name         | false    | A subreport should always have a name attribute, it will be used to nest parameter names passed into it.                    |
+*--------------+----------*-----------------------------------------------------------------------------------------------------------------------------+
+| source       | true     | Report Source reference id (See {{{./sources/index.html}Report Source documentation}}), or a any supported source object.   |
+*--------------+----------*-----------------------------------------------------------------------------------------------------------------------------+
+| value        | true     | A pointer to the report instance, it can be a path name to a <<<.jasper>>> file, a <<<JasperReport>>> object, etc.          |
+*--------------+----------*-----------------------------------------------------------------------------------------------------------------------------+
+
+  <<Note>>: A subreport can not specify an export format since it will use the
+same export format than the parent report it belongs to. However, it may use a
+different report source than the parent and it can also have its own parameters.

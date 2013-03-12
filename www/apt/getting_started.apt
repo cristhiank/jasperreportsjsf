@@ -1,0 +1,120 @@
+~~ 
+~~ JasperReports JSF Plugin
+~~ Copyright (C) 2011 A. Alonso Dominguez
+~~
+~~ This library is free software; you can redistribute it and/or
+~~ modify it under the terms of the GNU Lesser General Public
+~~ License as published by the Free Software Foundation; either
+~~ version 2.1 of the License, or (at your option) any later version.
+~~ 
+~~ This library is distributed in the hope that it will be useful,
+~~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+~~ Lesser General Public License for more details.
+~~ 
+~~ You should have received a copy of the GNU Lesser General Public
+~~ License along with this library; if not, write to the Free Software
+~~ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+~~ 
+~~ A. Alonso Dominguez
+~~ alonsoft@users.sf.net
+~~ 
+
+			---
+			Getting Started
+			---
+			A. Alonso Dominguez
+			
+
+Getting Started
+
+  Getting started with JasperReports JSF Plugin is very easy, just drop
+the jasperreports-jsf.jar file into your application classpath and you
+are ready to use it within your application view files.
+
+  Following are some indications you may need to use it depending of the
+JSF framework used by your web application.
+
+* Default Usage (JSP's)
+
+  If you are not using any JSF based framework, in other words, your 
+application is JSP based you should configure your JSP's to enable
+the tag library this way:
+
++---
+<%@ taglib uri="http://jasperreportjsf.sf.net/tld/jasperreports-jsf-1_2.tld" prefix="jr" %>
++---
+
+  After adding the <<<taglib>>> declaration you can add your report component
+to the JSF tree at any point you need:
+
++---
+<f:view>
+  ...
+  
+  <jr:reportFrame value="..." />
+  
+  ...
+</f:view>
++---
+
+* JSF Facelets
+
+  When using Facelets, the JasperReports JSF Plugin tag library must be
+configured using a XML namespace this way:
+
++---
+<html xmlns=".."
+      ...
+      xmlns:jr="http://jasperreportjsf.sf.net/tld/jasperreports-jsf-1_2.tld"
+>
+  ...
+</html>
++---
+
+  After defining the XML namespace for the plugin you can add the report
+component like other HTML content:
+
++---
+<html xmlns="..." xmlns:jr="...">
+...
+<body>
+  ...
+  <span jsfc="jr:reportLink" value="...">
+    View Report
+  </span>
+  ...
+</body>
+<html>
++---
+
+* Apache Shale (Clay views)
+
+  Using JasperReports JSF Plugin with Shale-Clay depends on what kind of views
+are you implementing:
+
+    * If you are using JSP based views, you will need to configure the
+      tag library like if you were using no JSF framework at all (Default Usage).
+      
+    * If you are using XHTML based views, you will need to configure the
+      XML namespace like if you were using the JSF Facelets framework.
+      
+    * If you are using HTML based views, you will not need to configure
+      any XML / taglib at all.
+      
+  Using Shale-Clay is very similar to using JSF Facelets, the main difference
+is the special attribute needed to stablish which JSF component it's related
+to a HTML tag. Following is an example:
+
++---
+<html>
+...
+<body>
+  ...
+  <span jsfid="jr:reportLink" value="...">
+    View Report
+  </span>
+  ...
+</body>
+<html>
++---

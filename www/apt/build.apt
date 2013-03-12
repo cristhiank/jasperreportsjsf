@@ -1,0 +1,121 @@
+~~
+~~ JasperReports JSF Plugin
+~~ Copyright (C) 2011 A. Alonso Dominguez
+~~
+~~ This library is free software; you can redistribute it and/or
+~~ modify it under the terms of the GNU Lesser General Public
+~~ License as published by the Free Software Foundation; either
+~~ version 2.1 of the License, or (at your option) any later version.
+~~
+~~ This library is distributed in the hope that it will be useful,
+~~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+~~ Lesser General Public License for more details.
+~~
+~~ You should have received a copy of the GNU Lesser General Public
+~~ License along with this library; if not, write to the Free Software
+~~ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+~~
+~~ A. Alonso Dominguez
+~~ alonsoft@users.sf.net
+~~
+
+                        ---
+			Build Instructions
+			---
+			A. Alonso Dominguez
+
+Build Instructions
+
+  Following sections will describre the different steps you should follow
+to build JasperReports JSF Plugin using the lastest version of the source code,
+obtained from its Subversion repository.
+
+* Preliminary Steps
+
+** Apache Maven
+
+  The build management tool used in JasperReports JSF Plugin is
+{{{http://maven.apache.org}Apache Maven}} so you will need it installed in your
+local machine in order to build the project.
+
+  The minimal version required is 2.0.8, check your Maven installation typing
+the following command:
+
++---
+#mvn -version
++---
+
+** Subversion Client
+
+  The best option when building from source is use the lastest version available
+at the Subversion repository at SourceForge. If you don't have already a
+subversion client you may download from {{{http://subversion.apache.org}Apache Subversion site}}.
+Linux and MacOS users should have already one installed; Windows users can use
+{{{http://tortoisesvn.tigris.org}Tortoise SVN}}.
+
+* Main Steps
+
+** Download the source code
+
+  You can get sources for each version at
+{{{http://sourceforge.net/project/showfiles.php?group_id=212447&package_id=255544}SourceForge's web site}}.
+However, if you want to work with the lastest version of the source code you
+should download it from the {{{source-repository.html}source repository}}.
+
+  To obtain the lastest sources at Linux / MacOS systems you would type:
+
++---
+#svn co https://jasperreportjsf.svn.sourceforge.net/svnroot/jasperreportjsf/trunk jasperreports-jsf
++---
+
+  Once downloaded, you will have a folder <<<jasperreports-jsf>>> at your current
+location. Access into that folder to proceed with following steps:
+
++---
+#cd jasperreports-jsf
++---
+
+** Compile Source Code
+
+  We will launch the compilation of the project using Apache Maven as follows:
+
++---
+#mvn
++---
+
+  Very simple! isn't it? This command will build the source code, build the unit
+tests, run unit tests, package jar files and install them into your local Maven's
+repository. It's equivalent to launch <<<mvn install>>> (<<<install>>> has been
+configured as the default goal when none has been given to the <<<mvn>>> command).
+
+  For just running the unit tests you can type:
+
++---
+#mvn test
++---
+
+  In the other hand, if you want to skip the execution of the unit tests you
+would type:
+
++---
+#mvn install -Dmaven.test.skip=true
++---
+
+** Other Maven Goals
+
+  As you could see in previous section, different Maven goals can be used to
+obtain different results. Here are the most important ones that should be used
+within this project sources.
+
+*** Generate documentation
+
++---
+#mvn site
++---
+
+*** Generate distribution packages
+
++---
+#mvn package assembly:assembly
++---

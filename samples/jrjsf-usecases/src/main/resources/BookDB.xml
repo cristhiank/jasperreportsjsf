@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Document   : BookDB.xml
+    Created on : 11 de enero de 2010, 12:24
+    Author     : aalonsodominguez
+    Description:
+        Purpose of the document follows.
+-->
+
+<bookdb>
+    <book>
+        <id>00001</id>
+        <title>Congreso de Futurologia</title>
+        <author>Stanislaw Lem</author>
+        <year>1978</year>
+        <genre>Ciencia Ficcion</genre>
+    </book>
+    <book>
+        <id>00002</id>
+        <title>Un Mundo Feliz</title>
+        <author>H. G. Wells</author>
+        <year>1975</year>
+        <genre>Ciencia Ficcion</genre>
+    </book>
+    <book>
+        <id>00003</id>
+        <title>La Isla del Tesoro</title>
+        <author>Robert Lewis Stevenson</author>
+        <year>1948</year>
+        <genre>Aventuras</genre>
+    </book>
+    <book>
+        <id>00004</id>
+        <title>El Señor de los Anillos</title>
+        <author>J. R. Tolkien</author>
+        <genre>Fantasia</genre>
+        <year>1945</year>
+    </book>
+</bookdb>

@@ -1,0 +1,199 @@
+~~ 
+~~ JasperReports JSF Plugin
+~~ Copyright (C) 2011 A. Alonso Dominguez
+~~
+~~ This library is free software; you can redistribute it and/or
+~~ modify it under the terms of the GNU Lesser General Public
+~~ License as published by the Free Software Foundation; either
+~~ version 2.1 of the License, or (at your option) any later version.
+~~ 
+~~ This library is distributed in the hope that it will be useful,
+~~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+~~ Lesser General Public License for more details.
+~~ 
+~~ You should have received a copy of the GNU Lesser General Public
+~~ License along with this library; if not, write to the Free Software
+~~ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+~~ 
+~~ A. Alonso Dominguez
+~~ alonsoft@users.sf.net
+~~ 
+
+			---
+			Other Sources
+			---
+			A. Alonso Dominguez
+			
+
+Other supported sources
+
+  Following is a summary about other supported data sources:
+  
+  * Bean and map data sources
+  
+  * <<<java.sql.ResultSet>>> based data source
+  
+  * User designed <<<net.sf.jasperreports.engine.JRDataSource>>>
+
+  * User supplied <<<java.sql.Connection>>> or <<<javax.sql.DataSource>>>
+
+* Bean & map data sources
+
+  This kind of data sources use one or more instances of the same bean
+class (<<<java.util.Map>>> when using maps) as data records. 
+
+** Configuring the source component
+
+  The attributes required to be used with this type of data soruce are
+reflected in the following table:
+
+*-----------------+----------*-----------------------------------------------------+
+| Attribute       | Optional | Description                                         |
+*-----------------+----------*-----------------------------------------------------+
+| type            | false    | <<<bean>>> when using beans and <<<map>>> otherwise |
+*-----------------+----------*-----------------------------------------------------+
+| value           | false    | Bean, Collection or array which contains the data.  |
+*-----------------+----------*-----------------------------------------------------+
+
+** Simple Example
+
+  Following there is an example about using this kind of data sources
+
++---
+import example.data.OrderBean;
+import java.util.*;
+
+public class BeanDataBean {
+	
+    ...
+	
+    public OrderBean[] getOrderArray() {
+        List<OrderBean> orderColl = new ArrayList<OrderBean>();
+        ...
+        return orderColl.toArray(new OrderBean[orderColl.size()]);
+    }
+	
+    public Collection<OrderBean> getOrderCollection() {
+        Set<OrderBean> orderSet = new HashSet<OrderSet>();
+        ...
+        return Collections.unmodifiableSet(orderSet);
+    }
+	
+    ...
+	
+}
++---
+
+  Then, this managed bean can be used inside the JSP file that will render
+the report or report link.
+
++---
+<%-- Array example --%>
+<jr:source id="..." type="bean" value="#{beanData.orderArray}" />
+
+<%-- Collection example --%>
+<jr:source id="..." type="bean" value="#{beanData.orderCollection}" />
++---
+
+** Using Queries
+
+  Queries against bean or map data sources are not supported.
+  
+* ResultSet sources
+
+  This is the most simple data source that can be used. When using JDBC result sets
+the value of the <<<type>>> atribute must be "<<<resultSet>>>" and the type for 
+the <<<value>>> attribute is must be always a <<<java.sql.ResultSet>>>.
+Be careful, since application is responsible of closing the result set.
+
+** <<ManagedBean example>>:
+
++---
+import java.sql.*;
+import javax.annotation.PreDestroy;
+
+public class ResultSetReportBean {
+
+    private ResultSet reportData = null;
+
+    public ResultSet getReportData() {
+        if (reportData == null) {
+            // Obtain a JDBC connection and execute a SQL query
+        }
+        return reportData;
+    }
+
+    @PreDestroy
+    public void release() {
+        if (reportData != null) {
+            try {
+                reportData.close();
+            } catch(SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+}
++---
+
+** <<JSF view example>>:
+
++---
+<jr:source type="resultSet" value="#{resultSetReport.reportData}" />
++---
+
+* User defined data sources
+
+  If none of the data sources suppported are suitable to your needs, you can
+create your own data source extending the class <<<net.sf.jasperreports.engine.JRDataSource>>>.
+Once you have your own implementation of this class you can define a <<<jr:dataSource>>>
+component to make use of it. 
+
+  When using custom data sources you will need a class to implement the interface
+<<<net.sf.jasperreports.engine.JRDataSource>>>, a managed bean that will be used
+to provide the data source to the JSF Component and the <<<jr:dataSource>>> definition.
+
+  <<Note>>: Any I/O resources opened needed to obtain the data must be released
+by the application.
+
++---
+import javax.annotation.PreDestroy;
+import net.sf.jasperreports.engine.JRDataSource;
+
+public class CustomDataSourceBean {
+
+    public JRDataSource getData() {
+        return new CustomDataSource( ... );
+    }
+
+    private class CustomDataSource implements JRDataSource {
+	
+        public CustomDataSource( ... ) {
+            ...
+        }
+	
+        // other methods
+	
+    }
+
+    @PreDestroy
+    public void release() {
+        // Release resources here
+    }
+
+}
++---
+
+  The JSF data source component will be similar to the following:
+
++---
+<jr:source id="myCustomDS" value="#{customDataSource.data}" />
++---
+
+or using one of the report base components directly
+
++---
+<jr:reportFrame source="#{customDataSource.data}" value="/path/to/report.jasper" />
++---

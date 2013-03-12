@@ -1,0 +1,78 @@
+~~ 
+~~ JasperReports JSF Plugin
+~~ Copyright (C) 2011 A. Alonso Dominguez
+~~
+~~ This library is free software; you can redistribute it and/or
+~~ modify it under the terms of the GNU Lesser General Public
+~~ License as published by the Free Software Foundation; either
+~~ version 2.1 of the License, or (at your option) any later version.
+~~ 
+~~ This library is distributed in the hope that it will be useful,
+~~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+~~ Lesser General Public License for more details.
+~~ 
+~~ You should have received a copy of the GNU Lesser General Public
+~~ License along with this library; if not, write to the Free Software
+~~ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+~~ 
+~~ A. Alonso Dominguez
+~~ alonsoft@users.sf.net
+~~
+
+                        ---
+			Converters Feature
+			---
+			A. Alonso Dominguez
+
+Converters Feature
+
+  Converters are a concept inspired by the already existent "Converter" feature
+from JSF but their behaviour in this library is quite different. The purpose of
+the converters is to interpret the user provided value that any component can
+receive. So we find two different types of converters:
+
+  * <<Source Converters>>: Designed to interpret the meaning of a source 
+    component's <<<value>>> attribute. The set of source converters provide
+    the wide variety of different {{{../sources/index.html}sources}} that a 
+    report can use to obtain report data.
+
+  * <<Report Converters>>: Designed to interpret the meaning of a report 
+    component's <<<value>>> attribute (link, frame or subreport). This is most an
+    experimental feature and it's intented for a way to allow users to provide a
+    <<<net.sf.jasperreports.engine.JasperReport>>> object instance, a compiled
+    report resource or a source file report resource.
+
+* Source converters
+
+  A source converter must implement the <<<net.sf.jasperreports.jsf.convert.SourceConverter>>>
+interface and should be listed in a file available from the classpath at this
+path: <<<META-INF/services/net.sf.jasperreports.jsf.convert.SourceConverter>>>.
+
+  Each source converter should be listed along with the source type it supports
+as it's shown in following example:
+
++---
+bean:net.sf.jasperreports.jsf.engine.converters.BeanSourceConverter
+csv:net.sf.jasperreports.jsf.engine.converters.CsvSourceConverter
+jdbc:net.sf.jasperreports.jsf.engine.converters.JdbcSourceConverter
+jndi:net.sf.jasperreports.jsf.engine.converters.JndiSourceConverter
+map:net.sf.jasperreports.jsf.engine.converters.MapSourceConverter
+resultSet:net.sf.jasperreports.jsf.engine.converters.ResultSetSourceConverter
+xls:net.sf.jasperreports.jsf.engine.converters.XlsSourceConverter
+xml:net.sf.jasperreports.jsf.engine.converters.XmlSourceConverter
++---
+
+* Report converters (EXPERIMENTAL)
+
+  A report converter must implement the <<<net.sf.jasperreports.jsf.convert.ReportConverter>>>
+interface and should be listed in a file available from the classpath at this
+path: <<<META-INF/services/net.sf.jasperreports.jsf.convert.ReportConverter>>>.
+
+  Each report converter should be listed along with the file extension it supports
+as it's shown in following example:
+
++---
+jasper:net.sf.jasperreports.jsf.engine.converters.JasperFileReportConverter
+jrxml:net.sf.jasperreports.jsf.engine.converters.SourceFileReportConverter
++---

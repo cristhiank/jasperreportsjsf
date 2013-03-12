@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--  
+  JasperReports JSF Plugin
+  Copyright (C) 2011 A. Alonso Dominguez
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public
+  License along with this library; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+  A. Alonso Dominguez
+  alonsoft@users.sf.net
+-->
+
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
+              version="1.2">
+
+    <application>
+        <state-manager>net.sf.jasperreports.jsf.application.StateManagerImpl</state-manager>
+    </application>
+
+    <lifecycle>
+        <phase-listener>net.sf.jasperreports.jsf.lifecycle.RestoreViewPhaseListener</phase-listener>
+        <phase-listener>net.sf.jasperreports.jsf.lifecycle.ApplyRequestValuesPhaseListener</phase-listener>
+        <phase-listener>net.sf.jasperreports.jsf.lifecycle.ProcessValidationsPhaseListener</phase-listener>
+        <phase-listener>net.sf.jasperreports.jsf.lifecycle.RenderResponsePhaseListener</phase-listener>
+    </lifecycle>
+
+    <component>
+        <description><![CDATA[
+Faces component tag used to provide to a report component
+the data needed for rendering. Consult library documentation
+about how to use this tag and its possible locations within
+the Faces tree.
+        ]]></description>
+        <display-name>Report Source Component</display-name>
+        <component-type>net.sf.jasperreports.jsf.Source</component-type>
+        <component-class>net.sf.jasperreports.jsf.component.UISource</component-class>
+        <property>
+            <display-name>Data source query</display-name>
+            <property-name>query</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+        <property>
+            <display-name>Type</display-name>
+            <property-name>type</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+    </component>
+
+    <component>
+        <display-name>Subreport Component</display-name>
+        <component-type>net.sf.jasperreports.jsf.Subreport</component-type>
+        <component-class>net.sf.jasperreports.jsf.component.UISubreport</component-class>
+    </component>
+
+    <component>
+    	<description><![CDATA[
+ Embeded report component. Outputs a frame that contains
+ the report contents inside of it.
+    	]]></description>
+        <display-name>HTML Report Frame Component</display-name>
+        <component-type>net.sf.jasperreports.jsf.HtmlReportFrame</component-type>
+        <component-class>net.sf.jasperreports.jsf.component.html.HtmlReportFrame</component-class>
+        <property>
+        	<description><![CDATA[
+Specifies the report output format. The value is identified
+as one of the configured exporters.
+        	]]></description>
+        	<display-name>Output Format</display-name>
+        	<property-name>format</property-name>
+        	<property-class>java.lang.String</property-class>
+        </property>
+    </component>
+
+    <component>
+        <display-name>HTML Link Report Component</display-name>
+        <component-type>net.sf.jasperreports.jsf.HtmlReportLink</component-type>
+        <component-class>net.sf.jasperreports.jsf.component.html.HtmlReportLink</component-class>
+    </component>
+
+    <validator>
+        <validator-id>net.sf.jasperreports.jsf.Report</validator-id>
+        <validator-class>net.sf.jasperreports.jsf.validation.ReportValidatorBase</validator-class>
+    </validator>
+
+    <validator>
+        <validator-id>net.sf.jasperreports.jsf.Source</validator-id>
+        <validator-class>net.sf.jasperreports.jsf.validation.SourceValidatorBase</validator-class>
+    </validator>
+
+    <render-kit>
+        <renderer>
+        	<description><![CDATA[
+Rendered used to output a frame that contains the
+report contents inside of it.
+        	]]></description>
+        	<display-name>Frame Renderer</display-name>
+            <component-family>net.sf.jasperreports.jsf.Report</component-family>
+            <renderer-type>net.sf.jasperreports.jsf.Frame</renderer-type>
+            <renderer-class>net.sf.jasperreports.jsf.renderkit.html.FrameRenderer</renderer-class>
+        </renderer>
+
+        <renderer>
+            <component-family>net.sf.jasperreports.jsf.Report</component-family>
+            <renderer-type>net.sf.jasperreports.jsf.Link</renderer-type>
+            <renderer-class>net.sf.jasperreports.jsf.renderkit.html.OutputLinkRenderer</renderer-class>
+        </renderer>
+
+    </render-kit>
+
+</faces-config>

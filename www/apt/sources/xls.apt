@@ -1,0 +1,133 @@
+~~
+~~ JasperReports JSF Plugin
+~~ Copyright (C) 2011 A. Alonso Dominguez
+~~
+~~ This library is free software; you can redistribute it and/or
+~~ modify it under the terms of the GNU Lesser General Public
+~~ License as published by the Free Software Foundation; either
+~~ version 2.1 of the License, or (at your option) any later version.
+~~
+~~ This library is distributed in the hope that it will be useful,
+~~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+~~ Lesser General Public License for more details.
+~~
+~~ You should have received a copy of the GNU Lesser General Public
+~~ License along with this library; if not, write to the Free Software
+~~ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+~~
+~~ A. Alonso Dominguez
+~~ alonsoft@users.sf.net
+~~
+
+			---
+			XLS Source
+			---
+			A. Alonso Dominguez
+
+Usage of the XLS Source
+
+  When using this kind of source we can load the data from a resource
+resolvable through the built-in resource loading mechanism or by means of a
+backing bean which will offer the data to the data source component.
+
+  <<Note>>: To use this feature you will need to use JasperReports 3.7.x
+
+* Configuring the data source
+
+  The attributes required to be used with this type of data soruce are
+reflected in the following table:
+
+*-----------------+----------*--------------------------------------------+
+| Attribute       | Optional | Description                                |
+*-----------------+----------*--------------------------------------------+
+| value           | false    | XLS Document which contains the data.      |
+*-----------------+----------*--------------------------------------------+
+
+  Valid values for attribute <<<value>>> are:
+
+  * <<<java.io.File>>>: A file handle to a resource accessible by the server
+    which is running the application.
+
+  * <<<java.net.URL>>>: An URL to a resource accessible through internet
+
+  * <<<java.lang.String>>>: A path to any kind of resource. It will be loaded using
+    the built-in resource loading mechanism.
+
+  * <<<java.io.InputStream>>>: A stream ready to be used to read the XLS data. In
+    this case, application is responsible of closing the stream
+
+  * <<<jxl.Workbook>>>: A pre-loaded or dynamically created XLS document.
+
+* Examples
+
+** Simple Usage
+
+  The most simple usage is based on the built-in resource loading mechanism
+implemented inside the plugin using following way:
+
++---
+<jr:source type="xls" value="classpath:META-INF/datasource/test.xls" />
++---
+
+** Using a backing bean
+
+  First of all, we need to design a JSF Managed Bean which will build the
+XML document that will be used by the data source component.
+
++---
+import java.io.*;
+import javax.annotation.PreDestroy;
+import jxl.Workbook;
+import ...;
+
+public class XLSDataBean {
+
+    private InputStream xlsStream = null;
+
+    ...
+
+    // Dynamically created XML document
+    public Workbook getXlsDocument() {
+        // Build an XLS Document
+    }
+
+    public InputStream getXlsStream() {
+        if (xlsStream == null) {
+            // Instantiate an input stream from a xls source
+        }
+        return xlsStream;
+    }
+
+    @PreDestroy
+    public void release() {
+        if (xlsStream != null) {
+            try {
+                xlsStream.close();
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Release other resources
+    }
+
+    ...
+
+}
++---
+
+  Then, this managed bean can be used inside the JSP file that will render
+the report or report link.
+
++---
+<jr:source type="xls" value="#{XLSDataBean.xlsDocument}" />
++---
+
++---
+<jr:source type="xls" value="#{XLSDataBean.xlsStream}" />
++---
+
+** Using Queries
+
+  Currently, using queries with XLS data sources is not supported.

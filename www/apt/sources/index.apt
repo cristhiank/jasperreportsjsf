@@ -1,0 +1,130 @@
+~~ 
+~~ JasperReports JSF Plugin
+~~ Copyright (C) 2011 A. Alonso Dominguez
+~~
+~~ This library is free software; you can redistribute it and/or
+~~ modify it under the terms of the GNU Lesser General Public
+~~ License as published by the Free Software Foundation; either
+~~ version 2.1 of the License, or (at your option) any later version.
+~~ 
+~~ This library is distributed in the hope that it will be useful,
+~~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+~~ Lesser General Public License for more details.
+~~ 
+~~ You should have received a copy of the GNU Lesser General Public
+~~ License along with this library; if not, write to the Free Software
+~~ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+~~ 
+~~ A. Alonso Dominguez
+~~ alonsoft@users.sf.net
+~~ 
+
+			---
+			Using Report Sources
+			---
+			A. Alonso Dominguez
+			
+
+Using Report Sources
+
+  JasperReports JSF Plugin supports many of the data sources supported
+by the {{{http://jasperreports.sf.net}JasperReports}} engine and many others which
+don't need to be directly supported by Jasperreports. This is
+done through the {{{../tlddoc/jr/source.html}jr:source}} component.
+Following is an example of how this component can be used. There are some
+issues that affect to each kind of data source, you should go forward to
+the documentation of the one you are planning to use if you need more information.
+
+* The <<<jr:source>>> component
+
+  There are two ways of using the data source component. When only a report
+or report link is to be rendered in the same page you can include the report
+source component nested inside the report component. Following is an example:
+
++---
+<jr:reportFrame id="ordersReportFrame"
+	...
+>
+	<jr:source ... />
+</jr:reportFrame>
++---
+
+  But, if you want to render more than one report frame or link, you can
+define the report source somewhere in the page and specify the <<<id>>> attribute.
+Then, the report component must reference the <<<id>>> of the source using
+the <<<source>>> attribute:
+
++---
+<jr:source id="mySource" ... />
+...
+<jr:reportLink id="orderReportLink" source="mySource" ... />
+<jr:reportLink id="customerReportLink" source="mySource" ... />
++---
+
+  <<Note>>: The report source component and the report component must be inside the
+same <<<javax.faces.component.NamingContainer>>> component instance.
+
+* Report Source component attributes
+
+  There are many different report sources with different behavior depending on
+the selected type. Apart from that, all kind of report sources share a common
+set of attributes and, depending on the values of these common attributes, the
+report source component will behave different.
+
+  <<Note>>: All of these attributes support value expressions.
+
+*-----------*----------------------------------------------------------------------------------------------------------------------------------*
+| Attribute | Description                                                                                                                      |
+*-----------*----------------------------------------------------------------------------------------------------------------------------------*
+| type      | The type of the report source used to load the report data.                                                                      |
+*-----------*----------------------------------------------------------------------------------------------------------------------------------*
+| query     | Query string used to filter the data comming from the report source.                                                             |
+*-----------*----------------------------------------------------------------------------------------------------------------------------------*
+| value     | Each report source interprets this attribute in a different manner. Consult the documentation of each report source for details. |
+*-----------*----------------------------------------------------------------------------------------------------------------------------------*
+
+* Available report sources
+
+  Following is a table of the current available report sources and the value
+that must be used for the <<<type>>> attribute of the data source component.
+
+*---------------------------------------------------------+---------*
+| Source                                                  | Type    |
+*---------------------------------------------------------+---------*
+| {{{./jndi.html}JNDI Report Source}}                     | jndi    |
+*---------------------------------------------------------+---------*
+| {{{./jdbc.html}JDBC Report Source}}                     | jdbc    |
+*---------------------------------------------------------+---------*
+| {{{./csv.html}CSV Report Source}}                       | csv     |
+*---------------------------------------------------------+---------*
+| {{{./xml.html}XML Report Source}}                       | xml     |
+*---------------------------------------------------------+---------*
+| {{{./xls.html}XLS Report Source}}                       | xls     |
+*---------------------------------------------------------+---------*
+| {{{./other.html}Other Supported Sources}}               | other   |
+*---------------------------------------------------------+---------*
+
+  If no value is set to the <<<type>>> attribute no data will be injected
+into the generated report.
+
+* Binding a report without a <<<jr:source>>> component.
+
+  There is no mandatory requirement to have a <<<jr:source>>> component
+to provide a report instance with data to be rendered. We can bind the report
+component (frame, link, subreport) directly to a managed bean property which
+offers a valid source object using the <<<source>>> attribute.
+
+  Following are the valid types supported by the <<<source>>> attribute at current
+date. You can also provide your own source types but you will need also to provide
+your own <<<SourceFactory>>> and <<<Filler>>> implementations in order to
+be fully supported by the renderers.
+
+  * <<<net.sf.jasperreports.engine.JRDataSource>>>: The native data source type
+    used by JasperReports to feed the report contents when rendering.
+
+  * <<<java.sql.Connection>>>: Using a SQL connection object your report will need
+    to specify some kind of query inside.
+
+  * <<<javax.sql.DataSource>>>: Using a SQL data source object your report will need
+    to specify some kind of query inside.

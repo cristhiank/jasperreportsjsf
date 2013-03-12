@@ -1,0 +1,50 @@
+~~ 
+~~ JasperReports JSF Plugin
+~~ Copyright (C) 2011 A. Alonso Dominguez
+~~
+~~ This library is free software; you can redistribute it and/or
+~~ modify it under the terms of the GNU Lesser General Public
+~~ License as published by the Free Software Foundation; either
+~~ version 2.1 of the License, or (at your option) any later version.
+~~ 
+~~ This library is distributed in the hope that it will be useful,
+~~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+~~ Lesser General Public License for more details.
+~~ 
+~~ You should have received a copy of the GNU Lesser General Public
+~~ License along with this library; if not, write to the Free Software
+~~ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+~~ 
+~~ A. Alonso Dominguez
+~~ alonsoft@users.sf.net
+~~ 
+
+                        ---
+			Functional Features
+			---
+			A. Alonso Dominguez
+
+Functional Features
+
+  JasperReports JSF Plugin has been developed with extendability in mind. Many
+of the built-in features are provided to the core implementation by means of
+{{{http://java.sun.com/j2se/1.3/docs/guide/jar/jar.html#Service%20Provider}Service Providers}}.
+This allows to anyone to complement and/or offer new implementations of the
+core features.
+
+  Following there is a list of the functional features provided as services:
+  
+*---------------------------------------------------------+------------------------------------------------+
+| Functional Feature                                      | Description                                    |
+*---------------------------------------------------------+------------------------------------------------+
+| {{{./converters.html}Converters}}                       | Responsible of user-provided data processing.  |
+*---------------------------------------------------------+------------------------------------------------+
+| {{{./filler.html}Fillers}}                              | Point between user-provided data and output.   |
+*---------------------------------------------------------+------------------------------------------------+
+| {{{./exporter.html}Exporters}}                          | Processors for different output formats.       |
+*---------------------------------------------------------+------------------------------------------------+
+| {{{./resource_loading.html}Resource Loading}}           | Built-in resource resolving mechanism.         |
+*---------------------------------------------------------+------------------------------------------------+
+| {{{./validators.html}Validators}}                       | Built-in validation framework                  |
+*---------------------------------------------------------+------------------------------------------------+

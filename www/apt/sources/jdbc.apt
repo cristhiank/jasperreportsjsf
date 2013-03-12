@@ -1,0 +1,113 @@
+~~ 
+~~ JasperReports JSF Plugin
+~~ Copyright (C) 2011 A. Alonso Dominguez
+~~
+~~ This library is free software; you can redistribute it and/or
+~~ modify it under the terms of the GNU Lesser General Public
+~~ License as published by the Free Software Foundation; either
+~~ version 2.1 of the License, or (at your option) any later version.
+~~ 
+~~ This library is distributed in the hope that it will be useful,
+~~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+~~ Lesser General Public License for more details.
+~~ 
+~~ You should have received a copy of the GNU Lesser General Public
+~~ License along with this library; if not, write to the Free Software
+~~ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+~~ 
+~~ A. Alonso Dominguez
+~~ alonsoft@users.sf.net
+~~ 
+
+			---
+			JDBC Source
+			---
+			A. Alonso Dominguez
+			
+
+Usage of the JDBC Report Source
+
+  JDBC sources are at the lowest level of data source that you can use. The
+usage of this data kind of data source requires configuring some attributes for
+the <<<jr:reportSource>>> tag.
+
+* Configuring the report source
+
+  The attributes required to be used with this type of report soruce are
+showed in the following table:
+
+*-----------------+----------*--------------------------------------------------+
+| Attribute       | Optional | Description                                      |
+*-----------------+----------*--------------------------------------------------+
+| driverClassName | false    | Name of the driver class to be used.             |
+*-----------------+----------*--------------------------------------------------+
+| username        | true     | Database user                                    |
+*-----------------+----------*--------------------------------------------------+
+| password        | true     | Database Password                                |
+*-----------------+----------*--------------------------------------------------+
+| value           | false    | URL of the connection                            |
+*-----------------+----------*--------------------------------------------------+
+| query           | true     | Query to be used to offer the data to the report |
+*-----------------+----------*--------------------------------------------------+
+
+  The {{{../tlddoc/jr/source.html}jr:source}} tag just supports the last
+two listed attributes, the other three (<<<driverClassName>>>, <<<username>>> and
+<<<password>>>) must be provided using the standard <<<f:attribute>>> tag.
+
+* Examples
+
+** Simple Usage
+
+  This usage of the report source will give to the report a <<<java.sql.Connection>>>
+instance. The report must be desgined with a default query.
+
+  The most simple usage consist on stablish the two required attributes:
+  
++---
+<jr:source id="jdbcSource" type="jdbc"
+	value="jdbc:psql://localhost/databasename"
+>
+	<f:attribute name="driverClassName" value="org.postgresql.Driver" />
+</jr:source>
++---
+
+  You can also specify the username and password of the connection this way:
+  
++---
+<jr:source id="jdbcSource"
+	value="jdbc:psql://localhost/databasename"
+>
+	<f:attribute name="driverClassName" value="org.postgresql.Driver" />
+	<f:attribute name="username" value="userId" />
+	<f:attribute name="password" value="s3cret" />
+</jr:source>
++---
+
+** Using queries
+
+  This kind of usage will give to the report a JasperReports' <<<ResultSetDataSource>>>
+instance. The report doesn't need to be designed with a default query.
+
+  To use queries with this kind of source you must include the <<<query>>> attribute:
+  
++---
+<jr:source id="jdbcSource"
+	value="jdbc:psql://localhost/databasename"
+	query="select * from orders"
+>
+	<f:attribute name="driverClassName" value="org.postgresql.Driver" />
+</jr:source>
++---
+
+  Also you can use parametriced queries this way:
+  
++---
+<jr:source id="jdbcDataSource"
+	value="jdbc:psql://localhost/databasename"
+	query="select * from orders where orderId = ?"
+>
+	<f:attribute name="driverClassName" value="org.postgresql.Driver" />
+	<f:param value="23938" />
+</jr:source>
++---

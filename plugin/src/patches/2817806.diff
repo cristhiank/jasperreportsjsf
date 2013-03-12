@@ -1,0 +1,44 @@
+Index: src/main/java/net/sf/jasperreports/jsf/util/FacesHyperlinkProducer.java
+===================================================================
+--- src/main/java/net/sf/jasperreports/jsf/util/FacesHyperlinkProducer.java	(revision 59)
++++ src/main/java/net/sf/jasperreports/jsf/util/FacesHyperlinkProducer.java	(working copy)
+@@ -19,6 +19,7 @@
+ package net.sf.jasperreports.jsf.util;
+ 
+ import java.io.Writer;
++import java.util.List;
+ 
+ import javax.faces.FactoryFinder;
+ import javax.faces.component.UIComponent;
+@@ -141,17 +142,22 @@
+ 	private String buildHref(final JRPrintHyperlink link) {
+ 		final StringBuffer buff = new StringBuffer();
+ 		buff.append(link.getHyperlinkReference());
+-		if (link.getHyperlinkParameters().getParameters().size() > 0) {
+-			buff.append('?');
+-			for (int i = 0; i < link.getHyperlinkParameters().getParameters()
+-					.size(); i++) {
+-				final JRHyperlinkParameter param = (JRHyperlinkParameter) link
+-						.getHyperlinkParameters().getParameters().get(i);
+-				buff.append(param.getName());
+-				buff.append('=');
+-				buff.append(param.getValueExpression().getText());
++		
++		List<?> params;
++		
++		if ((link.getHyperlinkParameters() != null) &&
++		   (params = link.getHyperlinkParameters().getParameters()) != null ) {
++			if (params.size() > 0) {
++				buff.append('?');
++				for (int i = 0; i < params.size(); i++) {
++					final JRHyperlinkParameter param = (JRHyperlinkParameter) params.get(i);
++					buff.append(param.getName());
++					buff.append('=');
++					buff.append(param.getValueExpression().getText());
++				}
+ 			}
+ 		}
++		
+ 		return context.getExternalContext().encodeResourceURL(buff.toString());
+ 	}
+ 

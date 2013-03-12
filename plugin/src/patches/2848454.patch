@@ -1,0 +1,15 @@
+### Eclipse Workspace Patch 1.0
+#P jasperreports-jsf
+Index: src/main/java/net/sf/jasperreports/jsf/util/ExternalContextHelper.java
+===================================================================
+--- src/main/java/net/sf/jasperreports/jsf/util/ExternalContextHelper.java	(revision 60)
++++ src/main/java/net/sf/jasperreports/jsf/util/ExternalContextHelper.java	(working copy)
+@@ -121,7 +121,7 @@
+ 		StringBuffer disposition = new StringBuffer();
+ 		if(report.getName() != null) {
+ 			disposition.append(renderer.getContentDisposition());
+-			disposition.append(";");
++			disposition.append("; filename=");
+ 			disposition.append(URLEncoder.encode(report.getName(), enc));
+ 		}
+ 		return disposition.toString();

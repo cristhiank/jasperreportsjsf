@@ -1,0 +1,13 @@
+Index: src/main/java/net/sf/jasperreports/jsf/validation/providers/JdbcDataSourceValidator.java
+===================================================================
+--- src/main/java/net/sf/jasperreports/jsf/validation/providers/JdbcDataSourceValidator.java	(revision 58)
++++ src/main/java/net/sf/jasperreports/jsf/validation/providers/JdbcDataSourceValidator.java	(working copy)
+@@ -36,7 +36,7 @@
+ 	@Override
+ 	protected void doValidate(final FacesContext context,
+ 			final UIDataSource dataSource) throws ValidationException {
+-		super.validate(context, dataSource);
++		super.doValidate(context, dataSource);
+ 		for (final String attr : REQUIRED_DATASOURCE_ATTRS) {
+ 			if (null == dataSource.getAttributes().get(attr)) {
+ 				throw new MissedDataSourceAttributeException(attr);

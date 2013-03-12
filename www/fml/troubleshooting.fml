@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<faqs xmlns="http://maven.apache.org/FML/1.0.1"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://maven.apache.org/FML/1.0.1 http://maven.apache.org/xsd/fml-1.0.1.xsd"
+      title="Frequently Asked Questions - Troubleshooting"
+      toplink="false">
+
+    <part id="build">
+        <title>Build questions</title>
+
+        <faq id="jasperreports-missing">
+            <question>
+                Maven complains about JasperReports 3.7.1 missing dependency
+            </question>
+            <answer>
+                <p>JasperReports JSF Plugin needs to be compiled with JasperReports
+                3.7.1. This is required to offer some features which just available
+                at that version of JasperReports.</p>
+                <p>Unfortunately, that version is not available at Maven 2 central
+                repository and that's why Maven 2 is complaining about the missing
+                dependency. To solve it, download that version of JasperReports
+                manually and install it into your local repository using the command:</p>
+                <source>mvn install:install-file</source>
+            </answer>
+        </faq>
+    </part>
+
+</faqs>

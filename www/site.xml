@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--  
+  JasperReports JSF Plugin
+  Copyright (C) 2011 A. Alonso Dominguez
+ 
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+ 
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  Lesser General Public License for more details.
+ 
+  You should have received a copy of the GNU Lesser General Public
+  License along with this library; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ 
+  A. Alonso Dominguez
+  alonsoft@users.sf.net
+-->
+
+<project name="JasperReports JSF Plugin"
+         xmlns="http://maven.apache.org/xsd/decoration"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/xsd/decoration http://maven.apache.org/xsd/decoration-1.0.0.xsd">
+
+  <bannerLeft>
+    <name>SourceForge.net Logo</name>
+    <src>http://sflogo.sourceforge.net/sflogo.php?group_id=212447&amp;type=5</src>
+    <href>http://www.sourceforge.net</href>
+  </bannerLeft>
+  <bannerRight>
+    <name>JasperReports JSF</name>
+    <href>http://jasperreportjsf.sf.net</href>
+  </bannerRight>
+  
+  <publishDate position="left" />
+  <version position="left" />
+  
+  <poweredBy>
+    <logo name="Maven" href="http://maven.apache.org/"
+          img="http://maven.apache.org/images/logos/maven-feather.png"/>
+    <logo name="JasperReports" href="http://www.jaspersoft.com/jasperreports"
+          img="http://jasperforge.org/uploads/projects/logo/jasperreports_thumbnail.jpg"/>
+    <logo name="Donate" href="http://sourceforge.net/donate/index.php?group_id=212447"
+          img="http://images.sourceforge.net/images/project-support.jpg"
+          width="88" height="32" border="0" alt="Support this Project" />
+  </poweredBy>
+  
+  <body>
+    <head>
+    	<script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-20020459-3']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+    </head>
+    
+    <links>      
+      <item name="SF Project Page" href="http://sourceforge.net/projects/jasperreportjsf" />
+      <item name="JF Project Page" href="http://jasperforge.org/plugins/project/project_home.php?group_id=106" />
+      <item name="JasperReports" href="http://jasperreports.sourceforge.net" />
+    </links>
+    
+    <menu name="Main Menu">
+      <item name="Overview" href="index.html" />
+      <item name="License" href="license.html" />
+      <item name="Downloads" href="downloads.html" />
+      <item name="What's New?" href="whats_new.html" />
+      <item name="FAQ" href="troubleshooting.html" />
+      <item name="Tracker" href="http://sourceforge.net/tracker/?group_id=212447" />
+      <item name="Forums" href="http://sourceforge.net/forum/?group_id=212447" />
+    </menu>
+    
+    <menu name="Modules">
+      <item name="Core Implementation" href="plugin/index.html" />
+      <item name="Sample Applications" href="samples/index.html">
+        <item name="Use cases" href="samples/parametrized_report.html" />
+      </item>
+    </menu>
+    
+    <menu name="User Documentation">
+      <item name="Getting Started" href="getting_started.html" />
+      <item name="Rendering Reports" href="rendering_reports.html" />
+      <item name="Report Sources" href="sources/index.html">
+        <item name="JDBC" href="sources/jdbc.html" />
+        <item name="JNDI" href="sources/jndi.html" />
+        <item name="CSV" href="sources/csv.html" />
+        <item name="XML" href="sources/xml.html" />
+        <item name="XLS" href="sources/xls.html" />
+        <item name="Others" href="sources/others.html" />
+      </item>
+    </menu>
+    
+    <menu name="Developer Documentation">
+      <item name="Build instructions" href="build.html" />
+      <item name="Functional Features" href="devel/index.html">
+        <item name="Converters" href="devel/converters.html"/>
+        <item name="Fillers" href="devel/filler.html" />
+        <item name="Exporters" href="devel/exporter.html" />
+        <item name="Resource Loading" href="devel/resource_loading.html" />
+        <item name="Validators" href="devel/validators.html" />
+      </item>
+      <item name="Reference">
+        <item name="API Docs" href="apidocs/index.html" />
+        <item name="TLD Docs" href="tlddoc/index.html" />
+      </item>
+    </menu>
+    
+    <menu ref="reports" />
+  </body>
+</project>

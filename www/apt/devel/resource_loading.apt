@@ -1,0 +1,81 @@
+~~ 
+~~ JasperReports JSF Plugin
+~~ Copyright (C) 2011 A. Alonso Dominguez
+~~
+~~ This library is free software; you can redistribute it and/or
+~~ modify it under the terms of the GNU Lesser General Public
+~~ License as published by the Free Software Foundation; either
+~~ version 2.1 of the License, or (at your option) any later version.
+~~ 
+~~ This library is distributed in the hope that it will be useful,
+~~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+~~ Lesser General Public License for more details.
+~~ 
+~~ You should have received a copy of the GNU Lesser General Public
+~~ License along with this library; if not, write to the Free Software
+~~ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+~~ 
+~~ A. Alonso Dominguez
+~~ alonsoft@users.sf.net
+~~ 
+
+                        ---
+			Resource Loading
+			---
+			A. Alonso Dominguez
+
+Resource Loading
+
+  Due to lack of any resource-handling mechanism in JSF specs prior to 2.0, a
+very simple one has been built inside the core features of this library to help
+users to deal with the different ways of loading the resources needed to render
+a report. This kind of resources include the reports and their sub-reports as well
+as the data sources used to feed the report rendering.
+
+  <<NOTE:>> This resource mechanism will be substituted and deprecated once the
+library is migrated to work with JSF 2.0 since this last spec provides well defined
+resource handling algorithms.
+
+* Resource Resolver
+
+  Resources are represented by the
+{{{../apidocs/net/sf/jasperreports/jsf/resource/Resource.html}<<<Resource>>>}}
+interface which provides with minimal methods to handle the resource contents and
+its location. <<<Resource>>> instances are resolved by means of a
+{{{../apidocs/net/sf/jasperreports/jsf/spi/ResourceResolver.html}<<<ResourceResolver>>>}}.
+Instances of the <<<ResourceResolver>>> are loaded from the classpath using the file
+<<<META-INF/services/net.sf.jasperreports.jsf.spi.ResourceResolver>>>
+
+  The file used to load factories must follow exactly the conventions specified by
+{{{http://java.sun.com/j2se/1.3/docs/guide/jar/jar.html#Service%20Provider}Service Providers}}.
+The recommended way of providing resource resolvers to the library is extending
+the abstract class {{{../apidocs/net/sf/jasperreports/jsf/spi/ResourceResolverWrapper.html}<<<ResourceResolverWrapper>>>}}
+and overriding the <<<resolveResource>>> method. When resolving resources, the
+library will build and internal "delegation chain" of resource resolvers, the last
+resolver in the chain will be the default built-in mechanism. When a <<<ResourceResolver>>>
+can not find a specific resource it must return <<<null>>> as the result of the
+resolve algorithm.
+
+** Default Resource Resolver
+
+  The default resource resolving algorithm is as follows:
+
+  * It the resource name is an URL use that URL to create the <<<Resource>>> instance.
+
+  * If resource name starts with the prefix "<<<classpath:>>>", use a classpath
+resource to resolve it.
+
+  * If resource name starts with a slash ("/"), then resolve it as an absolute name
+inside the application context.
+
+  * Reached this point we are dealing with a classpath resource or a resource
+relative with the current view. Then, proceed as follows:
+
+    * If, and only if, a resource with the given name can be resolved from the
+classpath, then return a <<<Resource>>> instance based on it.
+
+    * If there is a resource with the given name relative to the current view
+then return a <<<Resource>>> instance based on that relative resource.
+
+    * Else, return <<<null>>> notifying that no resource could be resolved.

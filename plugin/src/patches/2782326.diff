@@ -1,0 +1,14 @@
+Index: src/main/java/net/sf/jasperreports/jsf/fill/FillerFactory.java
+===================================================================
+--- src/main/java/net/sf/jasperreports/jsf/fill/FillerFactory.java	(revision 25)
++++ src/main/java/net/sf/jasperreports/jsf/fill/FillerFactory.java	(working copy)
+@@ -76,8 +76,8 @@
+             } catch (final Exception e) {
+                 throw new FillerException(e);
+             }
+-            validate(result);
+             result.setDataSourceComponent(dataSource);
++            validate(result);
+         }
+         return result;
+     }

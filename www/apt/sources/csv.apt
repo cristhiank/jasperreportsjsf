@@ -1,0 +1,115 @@
+~~ 
+~~ JasperReports JSF Plugin
+~~ Copyright (C) 2011 A. Alonso Dominguez
+~~
+~~ This library is free software; you can redistribute it and/or
+~~ modify it under the terms of the GNU Lesser General Public
+~~ License as published by the Free Software Foundation; either
+~~ version 2.1 of the License, or (at your option) any later version.
+~~ 
+~~ This library is distributed in the hope that it will be useful,
+~~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+~~ Lesser General Public License for more details.
+~~ 
+~~ You should have received a copy of the GNU Lesser General Public
+~~ License along with this library; if not, write to the Free Software
+~~ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+~~ 
+~~ A. Alonso Dominguez
+~~ alonsoft@users.sf.net
+~~ 
+
+			---
+			CSV Source
+			---
+			A. Alonso Dominguez
+			
+
+Usage of the CSV Source
+
+  When using this kind of source we can load the data from a resource 
+resolvable through the built-in resource loading mechanism or by means of a
+backing bean which will offer the data to the source component.
+
+* Configuring the source
+
+  The attributes required to be used with this type of data soruce are
+reflected in the following table:
+
+*-----------------+----------*------------------------------------------------+
+| Attribute       | Optional | Description                                    |
+*-----------------+----------*------------------------------------------------+
+| value           | false    | File, URL or resource which contains the data. |
+*-----------------+----------*------------------------------------------------+
+
+  Valid types for <<<value>>> attribute are:
+  
+  * <<<java.io.File>>>: A file handler to a resource with currently resides 
+    at server machine.
+    
+  * <<<java.net.URL>>>: An URL to a resource which can be obtained through internet
+  
+  * <<<java.io.InputStream>>>: A stream usable to read the CSV data. Application 
+    will be responsible of closing the provided stream.
+    
+  * <<<java.lang.String>>>: A path to any kind of resource. It will be loaded using
+    the built-in resource loading mechanism.  
+
+* Examples
+
+** Simple Usage
+
+  The most simple usage is based on the built-in resource loading mechanism
+implemented inside the plugin using following way:
+
++---
+<jr:source type="csv" value="classpath:META-INF/datasource/test.csv" />
++---
+
+** Using a backing bean
+
+  First of all, we need to design a JSF Managed Bean which will build the
+CSV data that will be used by the data source component.
+
++---
+import java.io.*;
+import javax.annotation.PreDestroy;
+
+public class CSVDataBean {
+
+    private InputStream csvFile;
+
+    public InputStream getCsvFile() {
+        if (csvFile == null) {
+            // Obtain a csv file from disk
+            csvFile = new FileInputStream( ... );
+        }
+        return csvFile;
+    }
+
+    @PreDestroy
+    public void release() {
+        if (csvFile != null) {
+            try {
+                csvFile.close();
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    ...
+}
++---
+
+  Then, this managed bean can be used inside the JSP file that will render
+the report or report link.
+
++---
+<jr:source type="csv" value="#{CSVDataBean.csvFile}" />
++---
+
+** Using Queries
+
+  Currently queries against CSV data sources are not supported.

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--  
+  JasperReports JSF Plugin
+  Copyright (C) 2011 A. Alonso Dominguez
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public
+  License along with this library; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+  A. Alonso Dominguez
+  alonsoft@users.sf.net
+-->
+
+<!DOCTYPE view PUBLIC
+"-//Apache Software Foundation//DTD Shale Clay View Configuration 1.0//EN"
+"http://shale.apache.org/dtds/clay-config_1_0.dtd">
+
+<view>
+
+    <component jsfid="jr:source"
+        componentType="net.sf.jasperreports.jsf.Source"
+        extends="baseComponent">
+        <attributes>
+            <set name="data" bindingType="VB" />
+            <set name="query" bindingType="VB" />
+            <set name="type" bindingType="VB" />
+            <set name="value" bindingType="VB" />
+        </attributes>
+    </component>
+
+    <component jsfid="jr:subreport"
+        componentType="net.sf.jasperreports.jsf.Subreport"
+        extends="baseComponent">
+        <attributes>
+            <set name="converter" bindingType="VB" />
+            <set name="name" bindingType="VB" />
+            <set name="source" bindingType="VB" />
+            <set name="value" bindingType="VB" />
+            <set name="validator" bindingType="VB" />
+        </attributes>
+    </component>
+
+    <component jsfid="jr:reportFrame"
+        componentType="net.sf.jasperreports.jsf.HtmlReportFrame"
+        extends="baseHtml">
+        <attributes>
+            <set name="converter" bindingType="VB" />
+            <set name="name" bindingType="VB" />
+            <set name="source" bindingType="VB" />
+            <set name="format" bindingType="VB" />
+            <set name="value" bindingType="VB" />
+            <set name="validator" bindingType="VB" />
+            <!-- Exporter attributes -->
+            <set name="encoding" bindingType="VB" />
+            <set name="ignorePageMargins" bindingType="VB" />
+            <set name="pageIndex" bindingType="VB" />
+            <set name="startPageIndex" bindingType="VB" />
+            <set name="endPageIndex" bindingType="VB" />
+            <set name="offsetX" bindingType="VB" />
+            <set name="offsetY" bindingType="VB" />
+            <!-- HTML iframe attributes -->
+            <set name="layout" bindingType="VB" />
+            <set name="frameborder" bindingType="VB" />
+            <set name="marginheight" bindingType="VB" />
+            <set name="marginwidth" bindingType="VB" />
+            <set name="height" bindingType="VB" />
+            <set name="width" bindingType="VB" />
+        </attributes>
+    </component>
+
+    <component jsfid="jr:reportLink"
+        componentType="net.sf.jasperreports.HtmlReportLink"
+        extends="baseHtml">
+        <attributes>
+            <set name="converter" bindingType="VB" />
+            <set name="name" bindingType="VB" />
+            <set name="source" bindingType="VB" />
+            <set name="format" bindingType="VB" />
+            <set name="value" bindingType="VB" />
+            <set name="validator" bindingType="VB" />
+            <!-- Exporter attributes -->
+            <set name="encoding" bindingType="VB" />
+            <set name="ignorePageMargins" bindingType="VB" />
+            <set name="pageIndex" bindingType="VB" />
+            <set name="startPageIndex" bindingType="VB" />
+            <set name="endPageIndex" bindingType="VB" />
+            <set name="offsetX" bindingType="VB" />
+            <set name="offsetY" bindingType="VB" />
+        </attributes>
+    </component>
+
+</view>

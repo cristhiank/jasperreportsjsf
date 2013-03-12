@@ -1,0 +1,87 @@
+~~ 
+~~ JasperReports JSF Plugin
+~~ Copyright (C) 2011 A. Alonso Dominguez
+~~
+~~ This library is free software; you can redistribute it and/or
+~~ modify it under the terms of the GNU Lesser General Public
+~~ License as published by the Free Software Foundation; either
+~~ version 2.1 of the License, or (at your option) any later version.
+~~ 
+~~ This library is distributed in the hope that it will be useful,
+~~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+~~ Lesser General Public License for more details.
+~~ 
+~~ You should have received a copy of the GNU Lesser General Public
+~~ License along with this library; if not, write to the Free Software
+~~ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+~~ 
+~~ A. Alonso Dominguez
+~~ alonsoft@users.sf.net
+~~ 
+
+			---
+			JNDI Source
+			---
+			A. Alonso Dominguez
+			
+
+Usage of the JNDI Report Source
+
+  The usage of a JNDI report source is very similar to using JDBC sources,
+the main difference is you don't need to stablish the <<<driverClassName>>>
+attribute. 
+
+* Configuring the report source
+
+  The attributes required to be used with this type of data soruce are
+reflected in the following table:
+
+*-----------------+----------*--------------------------------------------------+
+| Attribute       | Optional | Description                                      |
+*-----------------+----------*--------------------------------------------------+
+| value           | false    | JNDI name of the data source                     |
+*-----------------+----------*--------------------------------------------------+
+| query           | true     | Query to be used to offer the data to the report |
+*-----------------+----------*--------------------------------------------------+
+
+* Examples
+
+** Simple Usage
+
+  This usage of the report source will give to the report a <<<java.sql.Connection>>>
+instance. The report must be desgined with a default query.
+
+  The most simple usage consist on stablish the two required attributes:
+  
++---
+<jr:source id="jndiSource"
+	value="jdbc/databasename"
+	type="jndi"
+/>
++---
+
+** Using queries
+
+  This kind of usage will give to the report a JasperReports' <<<ResultSetDataSource>>>
+instance. The report doesn't need to be designed with a default query.
+
+  To use queries with this kind of source you must include the <<<query>>> attribute:
+  
++---
+<jr:source id="jndiSource" type="jndi"
+	value="jdbc/databasename"
+	query="select * from orders"
+/>
++---
+
+  Also you can use parametriced queries this way:
+  
++---
+<jr:source id="jndiSource" type="jndi"
+	value="jdbc/databasename"
+	query="select * from orders where orderId = ?"
+>
+	<f:param value="23938" />
+</jr:source>
++---

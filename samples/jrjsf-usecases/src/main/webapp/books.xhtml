@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:jr="http://jasperreportjsf.sf.net/tld/jasperreports-jsf-1_2.tld">
+<body>
+
+<ui:composition template="/resources/template.xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="#{Messages['books.pagetitle']}" />
+    </ui:define>
+
+    <ui:define name="body">
+    	<h:form id="bookListForm">
+    		<jr:source id="bookSource" type="jndi" value="java:comp/env/jdbc/BookDB" />
+    		
+	    	<jr:reportLink id="reportLink" format="pdf" target="blank" source="bookSource" 
+	    		value="/resources/reports/booklist.jrxml">
+	    		<f:param name="REPORT_RESOURCE_BUNDLE" value="#{Messages}" />
+	    		<h:outputText value="View Report" />
+	    	</jr:reportLink>
+	    	
+	        <h:dataTable value="#{BooksReport.bookList}" var="book">
+	        	<h:column>
+	        		<f:facet name="header">
+	        			<h:outputText value="#{Messages['books.title']}" />
+	        		</f:facet>
+	        		<h:outputText value="#{book.title}" />
+	        	</h:column>
+	        	<h:column>
+	        		<f:facet name="header">
+	        			<h:outputText value="#{Messages['books.author']}" />
+	        		</f:facet>
+	        		<h:outputText value="#{book.author}" />
+	        	</h:column>
+	        	<h:column>
+	        		<f:facet name="header">
+	        			<h:outputText value="#{Messages['books.year']}" />
+	        		</f:facet>
+	        		<h:outputText value="#{book.publishedYear}" />
+	        	</h:column>
+	        	<h:column>
+	        		<f:facet name="header">
+	        			<h:outputText value="#{Messages['books.genre']}" />
+	        		</f:facet>
+	        		<h:outputText value="#{book.genre}" />
+	        	</h:column>
+	        </h:dataTable>
+	        
+	        <jr:reportFrame id="reportFrame" source="bookSource"
+	        	value="/resources/reports/booklist.jrxml"
+	        	format="pdf" height="400px" width="80%" 
+	        />
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+
+</body>
+</html>

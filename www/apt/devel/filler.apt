@@ -1,0 +1,48 @@
+~~ 
+~~ JasperReports JSF Plugin
+~~ Copyright (C) 2011 A. Alonso Dominguez
+~~
+~~ This library is free software; you can redistribute it and/or
+~~ modify it under the terms of the GNU Lesser General Public
+~~ License as published by the Free Software Foundation; either
+~~ version 2.1 of the License, or (at your option) any later version.
+~~ 
+~~ This library is distributed in the hope that it will be useful,
+~~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+~~ Lesser General Public License for more details.
+~~ 
+~~ You should have received a copy of the GNU Lesser General Public
+~~ License along with this library; if not, write to the Free Software
+~~ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+~~ 
+~~ A. Alonso Dominguez
+~~ alonsoft@users.sf.net
+~~ 
+
+                        ---
+			Filler Feature
+			---
+			A. Alonso Dominguez
+
+
+Filler Feature
+
+  A {{{../apidocs/net/sf/jasperreports/jsf/engine/Filler.html}<<<Filler>>>}} is a
+intermediate point in the report rendering process. Its work consist on take the
+values established in the report and source components converted to its appropriate
+types (sources and reports) and generate a <<<net.sf.jasperreports.engine.JasperPrint>>> 
+object which represents the final report filled with data. Such an object can be 
+used in further requests to generate human readable output in any format supported
+by the plugin.
+
+  The default filler implementation is responsible of processing report parameters,
+subreports (and their parameters) and implicit objects. Users can extend this
+functionality providing <<<Filler>>> implementations that will be loaded following
+the {{{http://java.sun.com/j2se/1.3/docs/guide/jar/jar.html#Service%20Provider}Service Provider}}
+specification.
+
+  A user provided <<<Filler>>> must extends the class
+{{{../apidocs/net/sf/jasperreports/jsf/engine/fill/FillerWrapper.html}<<<FillerWrapper>>>}}
+so the user provided implementation can delegate its work to the default implementation
+when required.

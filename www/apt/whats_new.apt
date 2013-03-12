@@ -1,0 +1,97 @@
+~~ 
+~~ JasperReports JSF Plugin
+~~ Copyright (C) 2011 A. Alonso Dominguez
+~~
+~~ This library is free software; you can redistribute it and/or
+~~ modify it under the terms of the GNU Lesser General Public
+~~ License as published by the Free Software Foundation; either
+~~ version 2.1 of the License, or (at your option) any later version.
+~~ 
+~~ This library is distributed in the hope that it will be useful,
+~~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+~~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+~~ Lesser General Public License for more details.
+~~ 
+~~ You should have received a copy of the GNU Lesser General Public
+~~ License along with this library; if not, write to the Free Software
+~~ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+~~ 
+~~ A. Alonso Dominguez
+~~ alonsoft@users.sf.net
+~~ 
+
+			---
+			What's New?
+			---
+			A. Alonso Dominguez
+
+Features for last versions
+
+  This page is dedicated to showing fixes and features added (or improved) in 
+each release of JasperReports JSF Plugin. When using the library pay attention
+to this list when using any of the functionalities provided.
+
+* 1.0-beta-4
+
+  * Not backwards compatible with previous versions. Plugin design has been completely
+    restructured in order to provide a more robust behaviour and a wider set of
+    features.
+
+  * Plugin's lifecycle has been aligned with the standard JSF lifecycle.
+
+    ** Now a report render request is a true Faces's request invoked as a
+       postback against the view which declares the report.
+
+    ** Plugin components are validated when reached the PROCESS_VALIDATORS phase,
+       not inside the RENDER_RESPONSE phase.
+
+  * Components refactored with support for customizing the way user provided 
+    data is obtained.
+  
+    ** Report objects are processed by a ReportConverter instance.
+    
+    ** Source objects are processed by a SourceConverter instance.
+  
+  * Support for nested reports (subreport components). (EXPERIMENTAL)
+  
+  * Support for <<<.jrxml>>> report files which are compiled on the fly. (EXPERIMENTAL)
+
+  * Components can now receive values from managed beans' binded properties.
+
+  * Enhanced built-in resource loading/resolving mechanism.
+
+  * Eased extensibility by means of the <<<JRFacesContext>>> class
+
+  * Removed support for <<<java.awt.Graphics2D>>> output formal (useless in servlet
+or portlet environments).
+
+  * {{{./sources/xml.html}XML datasource}} now supports <<<org.xml.sax.InputSource>>>
+and <<<javax.xml.transform.Source>>> value types.
+
+  * Added support for {{{./sources/xls.html}XLS data sources}}
+
+  * Bug 2943601: <jr:dataSource> doesn't accept <f:attribute>
+
+  * Patch 2945905: Report's linked resources not being rendered.
+
+* 1.0-beta-3
+
+  * Added support for JasperReports 3.5.2 and later
+  
+  * Added <<<.docx>>> and <<<java.awt.Graphics2D>>> (EXPERIMENTAL) output formats
+  
+  * Tight integration between JSF and JasperReports by means of engine's classes implementations
+
+  * Bug 2848454: Bad exported filename fixed
+  
+  * Bug 2817806: NPE When exporting HTML reports fixed
+  
+  * Bug 2811689: Error constructing report URI fixed
+  
+  * Bug 2817805: Enless loop when validating JDBC data sources fixed
+  
+  * Bug 2813832: Plugin complains about Portlet API's
+  
+  * Bug 2782326: Null pointer in FillerFactory fixed
+  
+  * Bug 2002902: Response writer is null fixed
