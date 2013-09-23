@@ -127,7 +127,7 @@ public class DefaultExporterTest {
         mockery.checking(new Expectations() {
             {
                 oneOf(mockExporter).setJasperReportsContext(with(any(JasperReportsContext.class)));
-                atLeast(6).of(mockExporter).setParameter(
+                atLeast(4).of(mockExporter).setParameter(
                         with(any(JRExporterParameter.class)),
                         with(any(Object.class)));
                 oneOf(mockExporter).exportReport();
@@ -148,7 +148,7 @@ public class DefaultExporterTest {
         mockery.checking(new Expectations() {
             {
                 oneOf(mockExporter).setJasperReportsContext(with(any(JasperReportsContext.class)));
-                atLeast(6).of(mockExporter).setParameter(
+                atLeast(4).of(mockExporter).setParameter(
                         with(any(JRExporterParameter.class)),
                         with(any(Object.class)));
                 oneOf(mockExporter).exportReport();
